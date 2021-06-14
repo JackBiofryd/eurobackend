@@ -5,6 +5,8 @@ const fs = require('fs');
 const multer = require('multer');
 const app = express();
 
+app.use(cors());
+
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		const { workType } = req.params;
@@ -25,8 +27,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const PORT = 8080;
-
-app.use(cors());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
