@@ -15,12 +15,18 @@ const storage = multer.diskStorage({
 		const { workType } = req.params;
 		const dir = `./uploads/${workType}`;
 
+		try {
+			fs.mkdirSync(path.join(__dirname, `/uploads/${workType}`));
+		} catch (err) {
+			if (err.code !== 'EEXIST') throw err;
+		}
+
 		return cb(null, dir);
 	},
 	filename: (req, file, cb) => {
 		cb(
 			null,
-			`${file.originalname}--${Date.now()}${path.extname(
+			`${path.parse(file.originalname).name}--${Date.now()}${path.extname(
 				file.originalname
 			)}`
 		);
@@ -54,10 +60,10 @@ const handleUpload = (req, res) => {
 	return res.json({ msg: 'Success! File Uploaded.' });
 };
 
+app.post('/upload/:workType', upload.single('image'), handleUpload);
+
 // SSL Verification
 app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
-
-app.post('/upload/:workType', upload.single('image'), handleUpload);
 
 app.listen(process.env.PORT || PORT, () =>
 	console.log(`Listening on *:${PORT}`)
