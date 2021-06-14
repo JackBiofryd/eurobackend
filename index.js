@@ -16,6 +16,10 @@ const storage = multer.diskStorage({
 		const dir = `./uploads/${workType}`;
 
 		try {
+			fs.mkdirSync(path.join(__dirname, `uploads`));
+		} catch (err) {}
+
+		try {
 			fs.mkdirSync(path.join(__dirname, `/uploads/${workType}`));
 		} catch (err) {
 			if (err.code !== 'EEXIST') throw err;
