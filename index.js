@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
@@ -7,14 +6,18 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
-app.use(function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header(
+// Middleware to handle CORS error, adds headers to response to let browser fetch
+app.use((req, res, next) => {
+	// Allow access from anywhere
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	// Allow these headers to be in the request
+	res.setHeader(
 		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
+		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 	);
+	// Allow these requests
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
 	next();
 });
 
