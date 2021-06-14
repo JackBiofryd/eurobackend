@@ -7,22 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware to handle CORS error, adds headers to response to let browser fetch
-app.use((req, res, next) => {
-	// Allow access from anywhere
-	res.setHeader(
-		'Access-Control-Allow-Origin',
-		'https://europlusproekt.netlify.app'
-	);
-	// Allow these headers to be in the request
-	res.setHeader(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-	);
-	// Allow these requests
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-	next();
-});
+app.use(cors());
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
