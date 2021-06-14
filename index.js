@@ -18,7 +18,6 @@ const storage = multer.diskStorage({
 		return cb(null, dir);
 	},
 	filename: (req, file, cb) => {
-		console.log(file);
 		cb(
 			null,
 			`${
@@ -42,6 +41,7 @@ app.get('/getImages/:imageType', (req, res) => {
 });
 
 const handleUpload = (req, res) => {
+	console.log('made it here');
 	if (!req.file)
 		return res.status(400).json({ msg: 'Please Select an Image' });
 
