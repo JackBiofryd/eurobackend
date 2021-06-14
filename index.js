@@ -53,6 +53,9 @@ const handleUpload = (req, res) => {
 	return res.json({ msg: 'Success! File Uploaded.' });
 };
 
+// SSL Verification
+app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
+
 app.post('/upload/:workType', upload.single('image'), handleUpload);
 
 app.listen(process.env.PORT || PORT, () =>
