@@ -32,6 +32,8 @@ const PORT = 5000;
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.get('/', (req, res) => res.send('Welcome!'));
+
 app.get('/getImages/:imageType', (req, res) => {
 	fs.readdir(`./uploads/${req.params.imageType}`, (err, files) => {
 		return res.json({ files });
