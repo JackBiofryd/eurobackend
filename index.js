@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const cors = require('cors');
 const app = express();
+const PORT = 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,11 +39,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const PORT = 5000;
-
+/* 
+	API
+*/
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.get('/', (req, res) => res.send('Welcome!'));
 
 app.get('/getImages/:imageType', (req, res) => {
 	fs.readdir(`./uploads/${req.params.imageType}`, (err, files) => {
@@ -66,8 +66,10 @@ const handleUpload = (req, res) => {
 
 app.post('/upload/:workType', upload.single('image'), handleUpload);
 
-// SSL Verification
-app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'build'));
+});
 
 app.listen(process.env.PORT || PORT, () =>
 	console.log(`Listening on *:${PORT}`)
