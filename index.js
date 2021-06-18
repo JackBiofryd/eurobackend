@@ -62,7 +62,7 @@ app.post('/upload/:workType', upload.single('image'), async (req, res) => {
 
 	const { password, email } = req.body;
 
-	if (email !== 'jackbiofryd@gmail.com' || password !== '123456') {
+	if (email !== 'europlusproekt@t.mk' || password !== 'EuroPlusProekt2009') {
 		gfs.remove(
 			{ filename: req.file.filename, root: 'uploads' },
 			(err, gridStore) => console.error(err)
@@ -110,7 +110,7 @@ app.get('/image/:fileName', (req, res, next) => {
 app.post('/deleteImage/:fileName', (req, res) => {
 	const { email, password } = req.body;
 
-	if (email !== 'jackbiofryd@gmail.com' || password !== '123456') {
+	if (email !== 'europlusproekt@t.mk' || password !== 'EuroPlusProekt2009') {
 		return res.status(401).json({ msg: 'Invalid Credentials.' });
 	}
 	console.log(req.params.fileName);
